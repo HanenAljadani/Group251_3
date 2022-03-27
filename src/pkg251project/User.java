@@ -20,6 +20,17 @@ public class User {
     String Password;
     String username;
     int ID;
+
+    public User(String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username, int ID) {
+        this.Fname = Fname;
+        this.Lname = Lname;
+        this.Phone = Phone;
+        this.Email = Email;
+        this.DoB = DoB;
+        this.Password = Password;
+        this.username = username;
+        this.ID = ID;
+    }
     
     
     public String getUsername(){
