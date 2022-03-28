@@ -9,7 +9,7 @@ package pkg251project;
  *
  * @author 96653
  */
-//jamela hadi
+//jamela hadi 
 public class Pets {
 
     private String ill;
