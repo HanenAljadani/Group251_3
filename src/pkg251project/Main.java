@@ -101,5 +101,16 @@ public class Main {
         }
         return null;
     }
-
+    
+   public void OrganizeDocterschedule(){
+        
+        
+    }
+  public void GenerateAppointments(){
+        
+        
+    }
+    
+     
+ 
 }
