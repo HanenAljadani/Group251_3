@@ -17,11 +17,9 @@ public class Customer extends User {
     double Bill;
 
 
-    public Customer(Pets[] pet, Appointment[] app, double Bill, String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username, int ID) {
+    public Customer( String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username, int ID) {
         super(Fname, Lname, Phone, Email, DoB, Password, username, ID);
-        this.pet = pet;
-        this.app = app;
-        this.Bill = Bill;
+        
     }
 
     

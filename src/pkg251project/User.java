@@ -12,18 +12,19 @@ import java.util.Date;
  * @author 96653
  */
 public class User {
-    String Fname;
-    String Lname;
+    String Name;
+    
     String Phone;
     String Email;
     Date DoB;
     String Password;
     String username;
     int ID;
+    char gender;
 
     public User(String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username, int ID) {
-        this.Fname = Fname;
-        this.Lname = Lname;
+        this.Name = Fname +" "+Lname;
+        
         this.Phone = Phone;
         this.Email = Email;
         this.DoB = DoB;

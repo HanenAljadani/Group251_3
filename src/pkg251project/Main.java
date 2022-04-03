@@ -5,6 +5,10 @@
  */
 package pkg251project;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,11 +24,14 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) throws ParseException, FileNotFoundException {
         // TODO code application logic here
-       // User[] user ;
+        
+        File file = new File("input.txt");
+        File customers = new File("Customer.txt");
         Scanner input = new Scanner(System.in);
         ArrayList<User> u = new ArrayList<User>();
+        StartingUp(u,file);
         User use;
         System.out.println("--------------------------------\n\n\n");
         System.out.println("            Welcome to Pet clinic\n\n\n");
@@ -35,17 +42,21 @@ public class Main {
         int number = input.nextInt();
 
         if (number == 1) {
-            Register(u,input);
-        } else {
-            use = Login(u,input);
+            Register(u, input,file);
+        } else if (number == 2) {
+            use = Login(u, input);
             if (use == null) {
                 System.out.println("The user password or Username is incorrect");
                 System.out.println("Please try Again");
+                System.exit(0);
             }
+        } else {
+            System.out.println("incorrect number");
+            System.exit(0);
         }
         System.out.println("       Choose one of the services:");
-        System.out.println("            1.Book an appointment "
-                + "            2.Update your appointment ");
+        System.out.println("            1.Book an appointment\n"
+                + "            2.Reschedule your appointment ");
         int select = input.nextInt();
 
         switch (select) {
@@ -56,7 +67,7 @@ public class Main {
 
     }
 
-    public static void Register(ArrayList<User> u, Scanner input ) throws ParseException {
+    public static void Register(ArrayList<User> u, Scanner input,File file) throws ParseException, FileNotFoundException {
 
         System.out.println("Please enter all the information");
         System.out.println("--------------------------------");
@@ -78,18 +89,21 @@ public class Main {
         System.out.println("----Password: ");
         String password = input.next();
         System.out.println("Successfully sign up ");
-        User user = new User(Fname, Lname, phone, email, date1, password, userName, id);
+        Customer user = new Customer(Fname, Lname, phone, email, date1, password, userName, id);
 
         u.add(user);
+       
+       PrintWriter P2W = new PrintWriter(file);
+       P2W.print("Add_Customer "+id+" "+Fname+" "+Lname+" "+phone+" "+email+" "+date+" "+userName+" "+password);
+       P2W.close();
     }
 
     //Nora Aloufi : method login search for all system users if the user exist then the system 
     //will return the user's object if not then will return null
-    public static User Login(ArrayList<User> u,Scanner input) {
+    public static User Login(ArrayList<User> u, Scanner input) {
         String username;
         String password;
 
-        
         System.out.println("Enter User name: ");
         username = input.next();
         System.out.println("Enter Password");
@@ -101,16 +115,62 @@ public class Main {
         }
         return null;
     }
-    
-   public void OrganizeDocterschedule(){
-        
-        
+
+    public void OrganizeDocterschedule() {
+
     }
-  public void GenerateAppointments(){
-        
-        
+
+    public void GenerateAppointments() {
+
     }
-    
-     
- 
+
+    public static void StartingUp(ArrayList<User> u,File file) throws FileNotFoundException, ParseException {
+        
+        //Scanner to read from the file
+        Scanner readfile = new Scanner(file);
+        Vetenrinary[] vet = new Vetenrinary[readfile.nextInt()];
+        Admin[] admin = new Admin[readfile.nextInt()];
+        int count = 0;
+        while (readfile.hasNext()) {
+            String command = readfile.next();
+            if (command.equalsIgnoreCase("Add_VETERINARY")) {
+                int id = readfile.nextInt();
+                String fname = readfile.next();
+                String lname = readfile.next();
+                int room = readfile.nextInt();
+                String phone = readfile.next();
+                String email = readfile.next();
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = dateFormat.parse(readfile.next());
+                String Username = readfile.next();
+                String Password = readfile.next();
+                
+                char g = readfile.next().charAt(0);
+                double sal = readfile.nextDouble();
+                vet[count] = new Vetenrinary(id, fname, lname, phone, email, date, Password, Username, room, g, sal);
+                u.add(vet[count]);
+                count++;
+                if (count == vet.length) {
+                    count = 0;
+                }
+            }
+            if (command.equalsIgnoreCase("Add_Admin")) {
+                int id = readfile.nextInt();
+                String fname = readfile.next();
+                String lname = readfile.next();
+                String phone = readfile.next();
+                String email = readfile.next();
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = dateFormat.parse(readfile.next());
+                String Password = readfile.next();
+                String Username = readfile.next();
+                char g = readfile.next().charAt(0);
+                double sal = readfile.nextDouble();
+                admin[count]= new Admin(id,fname,lname,phone,email,date,Password,Username,g,sal);
+                u.add(admin[count]);
+            }
+        }
+
+    }
+
 }

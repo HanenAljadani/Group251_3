@@ -5,40 +5,40 @@
  */
 package pkg251project;
 
+import java.util.Date;
+
 /**
  *
  * @author noha
  */
-public class Vetenrinary {
-    int DectorID;
-   String DectorName;
-   int DectorRoom;
-   String Dectorphone;
+public class Vetenrinary extends User {
+    
+   double salary;
+int DectorRoom;
+    
 
-    public Vetenrinary() {
-    }
-
-    public Vetenrinary(int DectorID, String DectorName, int DectorRoom, String Dectorphone) {
-        this.DectorID = DectorID;
-        this.DectorName = DectorName;
+    public Vetenrinary( int ID,String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username, int DectorRoom ,char gender,double salary) {
+        super(Fname, Lname, Phone, Email, DoB, Password, username, ID);
+       
+        this.gender = gender;
+        this.salary = salary;
         this.DectorRoom = DectorRoom;
-        this.Dectorphone = Dectorphone;
     }
 
     public int getDectorID() {
-        return DectorID;
+        return ID;
     }
 
     public void setDectorID(int DectorID) {
-        this.DectorID = DectorID;
+        this.ID = DectorID;
     }
 
     public String getDectorName() {
-        return DectorName;
+        return Name;
     }
 
     public void setDectorName(String DectorName) {
-        this.DectorName = DectorName;
+        this.Name = DectorName;
     }
 
     public int getDectorRoom() {
@@ -50,16 +50,16 @@ public class Vetenrinary {
     }
 
     public String getDectorphone() {
-        return Dectorphone;
+        return Phone;
     }
 
     public void setDectorphone(String Dectorphone) {
-        this.Dectorphone = Dectorphone;
+        this.Phone = Dectorphone;
     }
 
     @Override
     public String toString() {
-        return "Vetenrinary{" + "DectorID=" + DectorID + ", DectorName=" + DectorName + ", DectorRoom=" + DectorRoom + ", Dectorphone=" + Dectorphone + '}';
+        return "Vetenrinary{" + "Vetenrinary ID=" + ID + ", Vetenrinary Name=" + Name + ", Vetenrinary Room=" + DectorRoom + ", Vetenrinary Phone=" + Phone + '}';
     }
     
    

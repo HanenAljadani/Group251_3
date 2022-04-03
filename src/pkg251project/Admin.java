@@ -5,36 +5,41 @@
  */
 package pkg251project;
 
+import java.util.Date;
+
 /**
  *
  * @author 96653
  */
-public class Admin {
-    int id;
-    String name;
+public class Admin extends User {
+    
+    double Salary;
+    char gender;
+    
+    public Admin( int ID,String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username,char g,double salary){
+        super(Fname, Lname, Phone, Email, DoB, Password, username, ID);
+        this.gender = g;
+        this.Salary = salary;
+                
+    }
 
     public int getId() {
-        return id;
+        return ID;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.ID = id;
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.Name = name;
     }
 
-    public Admin(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+   
 
-    public Admin() {
-    }
     
 }
