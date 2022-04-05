@@ -12,25 +12,69 @@ package pkg251project;
 //jamela hadi 
 public class Pets {
 
+    String name;
+    int age;
+    String sex;
+    Customer petOwnerId;
     private String ill;
     private String bloodtype;
 
     String type;
 
-    public String getillness() {
+    public void inianimalInfo(String name, String type, String sex, int age, String desc, Customer username) {
+        this.petOwnerId = username;
+        this.name = name;
+        this.type = type;
+        this.sex = sex;
+        this.age = age;
+         
+     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Customer getPetOwnerId() {
+        return petOwnerId;
+    }
+
+    public void setPetOwnerId(Customer petOwnerId) {
+        this.petOwnerId = petOwnerId;
+    }
+
+    public String getIll() {
         return ill;
-
     }
 
-    public void setillness(String illness) {
-        this.ill = illness;
+    public void setIll(String ill) {
+        this.ill = ill;
     }
 
-    public String getbloodtype() {
+    public String getBloodtype() {
         return bloodtype;
     }
 
-    public void setbloodgroup(String bloodtype) {
+    public void setBloodtype(String bloodtype) {
         this.bloodtype = bloodtype;
     }
 
@@ -41,4 +85,5 @@ public class Pets {
     public void setType(String type) {
         this.type = type;
     }
+
 }
