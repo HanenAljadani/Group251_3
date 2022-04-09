@@ -25,14 +25,23 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws ParseException, FileNotFoundException {
-        // TODO code application logic here
         
+        //File have Vetenrinary data
         File file = new File("input.txt");
+        //File to store Customers data 
         File customers = new File("Customer.txt");
         Scanner input = new Scanner(System.in);
+        //ArrayLists
         ArrayList<User> u = new ArrayList<User>();
+        ArrayList<Appointment> appointment = new ArrayList<Appointment>();
+        //File of appointments 
+        File appointmentFile = new File("Appointment.txt");
+        readAppointment(appointmentFile, appointment,u);
+        
+        
         StartingUp(u,file);
-        User use;
+        User user = null ;
+        
         System.out.println("--------------------------------\n\n\n");
         System.out.println("            Welcome to Pet clinic\n\n\n");
         System.out.println("--------------------------------");
@@ -40,12 +49,12 @@ public class Main {
         System.out.println("            2.Login   ");
         System.out.println("       Please Enter a number:");
         int number = input.nextInt();
-
+        
         if (number == 1) {
-            Register(u, input,file);
+           user =  Register(u, input,customers);
         } else if (number == 2) {
-            use = Login(u, input);
-            if (use == null) {
+            user = Login(u, input);
+            if (user == null) {
                 System.out.println("The user password or Username is incorrect");
                 System.out.println("Please try Again");
                 System.exit(0);
@@ -61,13 +70,61 @@ public class Main {
 
         switch (select) {
             case 1:
-
+                bookAppointment(appointment);
+                
             case 2:
+                boolean checkCustomerAppointment = checkAppointment(user , u);
         }
 
     }
+    public static void bookAppointment(ArrayList<Appointment> appointment){
+        System.out.println("       Choose One Of The Available Appointments     ");
+        System.out.println("     Day   ");
+        System.out.println("--------------------------");
+        for (int i = 0; i < appointment.size(); i++) {
+            Appointment app = appointment.get(i);
+//            User us = app.getDoctor();
+//            System.out.print(".     " + us.getID());
+            System.out.println("     " + app.getDay());
+            
 
-    public static void Register(ArrayList<User> u, Scanner input,File file) throws ParseException, FileNotFoundException {
+        }
+    }
+    public static boolean checkAppointment(User user, ArrayList<User> users){
+        return false;
+    }
+
+    public static void readAppointment(File file, ArrayList<Appointment> appointment, ArrayList<User> user) throws FileNotFoundException, ParseException {
+        Scanner input = new Scanner(file);
+        while (input.hasNext()) {
+            int id = input.nextInt();
+            User vetenrinary_Object = SearchVetenrinary(user,id);
+            
+            String day = input.next();
+            System.out.println(day);
+            String stringTime = input.next();
+            Date time = new SimpleDateFormat("hh:mm").parse(stringTime);
+            String stringDate = input.next();
+            Date date = new SimpleDateFormat("dd/MM").parse(stringDate);
+            Appointment appointment1 = new Appointment(vetenrinary_Object,day, date, time);
+            appointment.add(appointment1);
+        
+
+        } 
+    }
+    public static User SearchVetenrinary(ArrayList<User> users , int id){
+//      
+        
+        for (User vet : users) {
+                if (vet.getID() == id) {
+                    return vet;
+                }
+            
+
+        }
+        return null;
+    }
+    public static Customer Register(ArrayList<User> u, Scanner input,File file) throws ParseException, FileNotFoundException {
 
         System.out.println("Please enter all the information");
         System.out.println("--------------------------------");
@@ -96,6 +153,8 @@ public class Main {
        PrintWriter P2W = new PrintWriter(file);
        P2W.print("Add_Customer "+id+" "+Fname+" "+Lname+" "+phone+" "+email+" "+date+" "+userName+" "+password);
        P2W.close();
+       
+       return user;
     }
 
     //Nora Aloufi : method login search for all system users if the user exist then the system 
@@ -147,8 +206,10 @@ public class Main {
                 
                 char g = readfile.next().charAt(0);
                 double sal = readfile.nextDouble();
+                User user = new User(fname,lname,phone,email,date,Password, Username , id );//Extra
                 vet[count] = new Vetenrinary(id, fname, lname, phone, email, date, Password, Username, room, g, sal);
                 u.add(vet[count]);
+                u.add(user);//Extra
                 count++;
                 if (count == vet.length) {
                     count = 0;

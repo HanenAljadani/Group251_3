@@ -12,27 +12,34 @@ import java.util.Date;
  * @author noha
  */
 public class Appointment {
-    String docter;
+
+    User doctor;
     Date date;
-    int RoomNum;
-    int time;
+    Date time;
+    String day;
+    boolean valid;
 
     public Appointment() {
     }
 
-    public Appointment(String docter, Date date, int RoomNum, int time) {
-        this.docter = docter;
+    public Appointment(User doctor, String day, Date date, Date time) {
+        this.doctor = doctor;
         this.date = date;
-        this.RoomNum = RoomNum;
         this.time = time;
+        this.valid = true;
+        this.day = day;
     }
 
-    public String getDocter() {
-        return docter;
+    public void setDoctor(User doctor) {
+        this.doctor = doctor;
     }
 
-    public void setDocter(String docter) {
-        this.docter = docter;
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public String getDay() {
+        return day;
     }
 
     public Date getDate() {
@@ -43,26 +50,30 @@ public class Appointment {
         this.date = date;
     }
 
-    public int getRoomNum() {
-        return RoomNum;
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
-    public void setRoomNum(int RoomNum) {
-        this.RoomNum = RoomNum;
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 
-    public int getTime() {
+    public User getDoctor() {
+        return doctor;
+    }
+
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public boolean isValid() {
+        return valid;
     }
 
     @Override
     public String toString() {
-        return "Appointment{" + "docter=" + docter + ", date=" + date + ", RoomNum=" + RoomNum + ", time=" + time + '}';
+        return "Appointment{" + "doctor=" + doctor + ", date=" + date + ", time=" + time + ", valid=" + valid + '}';
     }
-     
-    
+
 }

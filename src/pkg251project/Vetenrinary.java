@@ -13,8 +13,8 @@ import java.util.Date;
  */
 public class Vetenrinary extends User {
     
-   double salary;
-int DectorRoom;
+    double salary;
+    int DectorRoom;
     
 
     public Vetenrinary( int ID,String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username, int DectorRoom ,char gender,double salary) {
