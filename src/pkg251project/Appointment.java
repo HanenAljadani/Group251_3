@@ -13,16 +13,16 @@ import java.util.Date;
  */
 public class Appointment {
 
-    User doctor;
+    Vetenrinary doctor;
     Date date;
-    Date time;
+    String time;
     String day;
     boolean valid;
 
     public Appointment() {
     }
 
-    public Appointment(User doctor, String day, Date date, Date time) {
+    public Appointment(Vetenrinary doctor, String day, Date date, String time) {
         this.doctor = doctor;
         this.date = date;
         this.time = time;
@@ -30,7 +30,7 @@ public class Appointment {
         this.day = day;
     }
 
-    public void setDoctor(User doctor) {
+    public void setDoctor(Vetenrinary doctor) {
         this.doctor = doctor;
     }
 
@@ -51,7 +51,7 @@ public class Appointment {
     }
 
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
@@ -59,21 +59,12 @@ public class Appointment {
         this.valid = valid;
     }
 
-    public User getDoctor() {
-        return doctor;
+    public Vetenrinary getDoctor() {
+       return this.doctor;
     }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public boolean isValid() {
-        return valid;
-    }
-
-    @Override
+    
+@Override
     public String toString() {
         return "Appointment{" + "doctor=" + doctor + ", date=" + date + ", time=" + time + ", valid=" + valid + '}';
     }
-
 }

@@ -19,6 +19,7 @@ public class Customer extends User {
 
     public Customer( String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username, int ID) {
         super(Fname, Lname, Phone, Email, DoB, Password, username, ID);
+        app = new Appointment[3];
         
     }
 
@@ -63,16 +64,23 @@ public class Customer extends User {
         return Bill;
     }
     
-    public void setPet(Pets[] pet) {
-        this.pet = pet;
+    public void setPet(Pets pet,int index) {
+        this.pet[index] = pet;
     }
 
-    public void setApp(Appointment[] app) {
-        this.app = app;
+    public void setApp(Appointment app,int index) {
+        this.app[index] = app;
     }
 
     public void setBill(double Bill) {
         this.Bill = Bill;
     }
-    
+    public  int Nullappointment(){
+         for(int i=0;i<app.length;i++){
+             if(app[i]==null)
+                 return i;
+         }
+         return -1;      
+    }
+
 }
