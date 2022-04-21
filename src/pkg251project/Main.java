@@ -68,7 +68,7 @@ public class Main {
         }
         System.out.println("       Choose one of the services:");
         System.out.println("            1.Book an appointment\n"
-                + "            2.Reschedule your appointment \n"+"3.updete2"
+                + "            2.Reschedule your appointment \n"+"3.updete2"+"444.updete2"
                 + "2");
         int select = input.nextInt();
 
@@ -80,14 +80,17 @@ public class Main {
                 boolean checkCustomerAppointment = checkAppointment(user , u);
             case 3 : 
                 updeteApp(appointment,user,input);
-        }
+       
+          case 4 : 
+                 GenerateAppointments(appointment,user,input);
 
+    }
     }
     public static void bookAppointment(ArrayList<Appointment> appointment,User user,Scanner input){
         System.out.println("       Choose One Of The Available Appointments     ");
         System.out.println("    Doctor     Day    Time ");
         System.out.println("--------------------------");
-        for (int i = 0; i < appointment.size(); i++) {
+        for (int i = 0; i < appointment.size()-1; i++) {
             Appointment app = appointment.get(i);
              Vetenrinary us = app.getDoctor();
              System.out.println(i+1+".     " + us.getDectorID()+"     " + app.getDay()+"     " + app.getDate());
@@ -113,6 +116,37 @@ public class Main {
         
         
         
+    }
+    public static void GenerateAppointments(ArrayList<Appointment> appointment,User user,Scanner input) {
+            System.out.println("       Choose One Of The Available Appointments     ");
+        System.out.println("    Doctor     Day    Time ");
+        System.out.println("--------------------------");
+        for (int i = 0; i < appointment.size(); i++) {
+            Appointment app = appointment.get(i);
+             Vetenrinary us = app.getDoctor();
+             System.out.println(i+1+".     " + us.getDectorID()+"     " + app.getDay()+"     " + app.getDate());
+         
+        } 
+                      int number = input.nextInt();
+
+   
+        //System.out.println("       Choose One Of The Available Appointments     ");
+     for (int i = 0; i < appointment.size(); i++) {
+         if(i==number){
+            Appointment app = appointment.get(i);
+            
+            Vetenrinary us = app.getDoctor();
+            
+             System.out.println(i+1+".     " + us.getDectorID()+"     " + app.getDay()+"     " + app.getDate());
+           
+         }
+          // boolean name = appointment[i] instanceof Patient;
+        
+        } 
+     
+    
+            
+            
     }
     public static boolean checkAppointment(User user, ArrayList<User> users){
         return false;
@@ -215,9 +249,7 @@ public class Main {
 
     }
 
-    public void GenerateAppointments() {
-
-    }
+ 
      public static void updeteApp(ArrayList<Appointment> appointment,User user,Scanner input){
          System.out.println(user.ID);
         System.out.println(user.Phone);
