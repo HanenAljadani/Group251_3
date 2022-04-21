@@ -39,7 +39,8 @@ public class Main {
         StartingUp(file);
         File appointmentFile = new File("Appointment.txt");
         readAppointment(appointmentFile, appointment,u);
-        
+//        //file of medication
+//        File Medication3File=new File ("Medication.txt");
         
         
         User user = null ;
@@ -67,7 +68,8 @@ public class Main {
         }
         System.out.println("       Choose one of the services:");
         System.out.println("            1.Book an appointment\n"
-                + "            2.Reschedule your appointment ");
+                + "            2.Reschedule your appointment \n"+"3.updete2"
+                + "2");
         int select = input.nextInt();
 
         switch (select) {
@@ -76,6 +78,8 @@ public class Main {
                 
             case 2:
                 boolean checkCustomerAppointment = checkAppointment(user , u);
+            case 3 : 
+                updeteApp(appointment,user,input);
         }
 
     }
@@ -214,6 +218,58 @@ public class Main {
     public void GenerateAppointments() {
 
     }
+     public static void updeteApp(ArrayList<Appointment> appointment,User user,Scanner input){
+         System.out.println(user.ID);
+        System.out.println(user.Phone);
+         
+         Customer cus= (Customer)user;
+         cus.printAppointmentInfo();
+         System.out.println("if you do updete enter 1\n"+"if you do not updete enter 2 ");
+         int r=input.nextInt();
+        
+
+         if (r==1){
+//           System.out.println("enter your app num");
+//         int numapp=input.nextInt();
+//             Appointment[] appp = cus.getApp();
+//             for (int i=0;i<appp.length;i++){
+//                if (appp[i].getAppId()==numapp){
+//                    boolean name = appp[i]==null;
+//                }
+//             }
+            System.out.println("       Choose One Of The Available Appointments     ");
+        System.out.println("    Doctor     Day    Time ");
+        System.out.println("--------------------------");
+        
+        for (int i = 0; i < appointment.size(); i++) {
+            
+            Appointment app = appointment.get(i);
+             Vetenrinary us = app.getDoctor();
+             System.out.println(i+1+".     " + us.getDectorID()+"     " + app.getDay()+"     " + app.getDate());
+         
+        }
+                int number = input.nextInt();
+        int id = ((Customer)user).getID();
+       for(int i =0 ;i<u.size();i++){
+           if(id==u.get(i).ID){
+              int index = ((Customer)u.get(i)).Nullappointment();
+              if(index>=0){
+                  ((Customer)u.get(i)).setApp(appointment.get(number-1), index);
+                  appointment.get(number-1).setValid(false);
+                  System.out.println("You have successfully update your appointment with Dr."+appointment.get(number-1).getDoctor().getDectorName());
+                  
+              }else if(index<0){
+                  System.out.println("You reached the Limits for booking an appointments");
+              }
+           }
+           
+       }
+         }
+         else if(r==2){
+             
+         }
+
+     }
 
     public static void StartingUp(File file) throws FileNotFoundException, ParseException {
         

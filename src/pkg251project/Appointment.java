@@ -18,7 +18,24 @@ public class Appointment {
     String time;
     String day;
     boolean valid;
+    int appId;
 
+    public Appointment(Vetenrinary doctor, Date date, String time, String day, boolean valid, int appId) {
+        this.doctor = doctor;
+        this.date = date;
+        this.time = time;
+        this.day = day;
+        this.valid = valid;
+        this.appId = appId;
+    }
+
+    public int getAppId() {
+        return appId;
+    }
+
+    public void setAppId(int appId) {
+        this.appId = appId;
+    }
     public Appointment() {
     }
 
@@ -28,8 +45,11 @@ public class Appointment {
         this.time = time;
         this.valid = true;
         this.day = day;
+        this.appId=appId;
     }
 
+    
+    
     public void setDoctor(Vetenrinary doctor) {
         this.doctor = doctor;
     }
