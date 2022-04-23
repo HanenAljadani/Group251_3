@@ -68,8 +68,10 @@ public class Main {
         }
         System.out.println("       Choose one of the services:");
         System.out.println("            1.Book an appointment\n"
-                + "            2.Reschedule your appointment \n"+"3.updete2"+"444.updete2"
+                + "            2.Reschedule your appointment \n"+"3.updete"
                 + "2");
+                System.out.println("\n 4. Generate Appointments");
+
         int select = input.nextInt();
 
         switch (select) {
@@ -90,7 +92,7 @@ public class Main {
         System.out.println("       Choose One Of The Available Appointments     ");
         System.out.println("    Doctor     Day    Time ");
         System.out.println("--------------------------");
-        for (int i = 0; i < appointment.size()-1; i++) {
+        for (int i = 0; i < appointment.size(); i++) {
             Appointment app = appointment.get(i);
              Vetenrinary us = app.getDoctor();
              System.out.println(i+1+".     " + us.getDectorID()+"     " + app.getDay()+"     " + app.getDate());
@@ -121,7 +123,7 @@ public class Main {
             System.out.println("       Choose One Of The Available Appointments     ");
         System.out.println("    Doctor     Day    Time ");
         System.out.println("--------------------------");
-        for (int i = 0; i < appointment.size(); i++) {
+        for (int i = 0; i < appointment.size()-1; i++) {
             Appointment app = appointment.get(i);
              Vetenrinary us = app.getDoctor();
              System.out.println(i+1+".     " + us.getDectorID()+"     " + app.getDay()+"     " + app.getDate());
@@ -129,19 +131,20 @@ public class Main {
         } 
                       int number = input.nextInt();
 
-   
-        //System.out.println("       Choose One Of The Available Appointments     ");
+        System.out.println("      Print All info    ");
      for (int i = 0; i < appointment.size(); i++) {
          if(i==number){
             Appointment app = appointment.get(i);
             
             Vetenrinary us = app.getDoctor();
-            
-             System.out.println(i+1+".     " + us.getDectorID()+"     " + app.getDay()+"     " + app.getDate());
            
+     System.out.println("user ID"+user.ID);
+        System.out.println("User phone"+user.Phone);
+                System.out.println("\n Doctor name   \n"+appointment.get(number-1).getDoctor().getDectorName()+"\n Doctore ID  \n "+appointment.get(number-1).getDoctor().getDectorID()+"\n Day   \n"+appointment.get(number-1).getDay()+"\n Date  \n"+appointment.get(number-1).getDate());;
+ 
+            
          }
-          // boolean name = appointment[i] instanceof Patient;
-        
+         
         } 
      
     
