@@ -15,12 +15,17 @@ public class Customer extends User {
     Pets[] pet;
     Appointment[] app;
     double Bill;
+    Medication medication;
 
 
     public Customer( String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username, int ID) {
         super(Fname, Lname, Phone, Email, DoB, Password, username, ID);
         app = new Appointment[3];
         
+    }
+
+    public void setMedication(Medication medication) {
+        this.medication = medication;
     }
 
     

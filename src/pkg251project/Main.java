@@ -20,177 +20,227 @@ import java.util.Scanner;
  * @author 96653
  */
 public class Main {
+////array list for all the users
 
- static ArrayList<User> u = new ArrayList<User>();
+    static ArrayList<User> u = new ArrayList<User>();
+   static ArrayList<Appointment> appointment = new ArrayList<Appointment>();
+   static User user;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws ParseException, FileNotFoundException {
-        
+
         //File have Vetenrinary data
         File file = new File("input.txt");
         //File to store Customers data 
         File customers = new File("Customer.txt");
         Scanner input = new Scanner(System.in);
         //ArrayLists
+
         
-        ArrayList<Appointment> appointment = new ArrayList<Appointment>();
         //File of appointments 
         StartingUp(file);
         File appointmentFile = new File("Appointment.txt");
-        readAppointment(appointmentFile, appointment,u);
+        readAppointment(appointmentFile);
 //        //file of medication
 //        File Medication3File=new File ("Medication.txt");
-        
-        
-        User user = null ;
-        
-        System.out.println("--------------------------------\n\n\n");
-        System.out.println("            Welcome to Pet clinic\n\n\n");
-        System.out.println("--------------------------------");
+
+         user = null;
+        while(true){
+        System.out.println("--------------------------------------\n");
+        System.out.println("        Welcome to Pet clinic\n");
+        System.out.println("--------------------------------------");
         System.out.println("            1.Sign up ");
         System.out.println("            2.Login   ");
+        System.out.println("            3.Exit  ");
         System.out.println("       Please Enter a number:");
         int number = input.nextInt();
-        
+
         if (number == 1) {
-           user =  Register(input,file);
+            user = Register(input, file);
+            continue;
         } else if (number == 2) {
-            user = Login( input);
+            user = Login(input);
             if (user == null) {
                 System.out.println("The user password or Username is incorrect");
                 System.out.println("Please try Again");
-                System.exit(0);
+                continue;
+                
             }
-        } else {
-            System.out.println("incorrect number");
+        }else if (number == 3){
             System.exit(0);
         }
+        if(user instanceof Customer){
+            CustomerMenu(input);
+        }
+        if(user instanceof Vetenrinary){
+            Vetenrinary(input);
+         }
+        if(user instanceof Admin){
+            
+        }
+        }
+    }
+    public static void AdminMenu(){
+        System.out.println(" Welcome back Admin");
+        System.out.println("Report generation ...");
+        //Method of reports 
+        
+    }
+    public static void CustomerMenu(Scanner input){
+        System.out.println("       Welcome Back ");
         System.out.println("       Choose one of the services:");
         System.out.println("            1.Book an appointment\n"
-                + "            2.Reschedule your appointment \n"+"3.updete"
-                + "2");
-                System.out.println("\n 4. Generate Appointments");
+                + "            2.Reschedule your appointment \n" );
+        System.out.print("            3.View prescription ");
 
         int select = input.nextInt();
 
         switch (select) {
             case 1:
-                bookAppointment(appointment,user,input);
-                
-            case 2:
-                boolean checkCustomerAppointment = checkAppointment(user , u);
-            case 3 : 
-                updeteApp(appointment,user,input);
-       
-          case 4 : 
-                 GenerateAppointments(appointment,user,input);
+                bookAppointment( input);
 
+            case 2:
+                boolean checkCustomerAppointment = checkAppointment(user, u);
+            case 3:
+                updeteApp( input);
+
+            case 4:
+                GenerateAppointments(appointment, user, input);
+
+        }
     }
+    public static void Vetenrinary(Scanner input){
+        System.out.println("Welcome back Vetenrinary");
+        System.out.println("Enter the Customer ID");
+        
+        int id = input.nextInt();
+        user = SearchCustomer(id);
+        if(user == null){
+            System.out.println("Sorry, this customer not found");
+        }else{
+            System.out.println("You can add medicine to "+user.getName());
+            System.out.print("Write the medicine code : ");
+            int code = input.nextInt();
+            System.out.print("Write the name of medicine : ");
+            String name = input.next();
+            System.out.print("Write the price of medicine : ");
+            double price = input.nextDouble();
+            
+            Medication medicine = new Medication(code, name , price);
+            
+           ((Customer)user).setMedication(medicine);
+           
+           System.out.println("Thank you, ");
+        } 
+        
     }
-    public static void bookAppointment(ArrayList<Appointment> appointment,User user,Scanner input){
+    
+    //this method print a menu for available appointments
+    public static void bookAppointment( Scanner input) {
+        //print statetments
         System.out.println("       Choose One Of The Available Appointments     ");
         System.out.println("    Doctor     Day    Time ");
         System.out.println("--------------------------");
+        //printing the menu
         for (int i = 0; i < appointment.size(); i++) {
             Appointment app = appointment.get(i);
-             Vetenrinary us = app.getDoctor();
-             System.out.println(i+1+".     " + us.getDectorID()+"     " + app.getDay()+"     " + app.getDate());
-         
-        } 
+            Vetenrinary us = app.getDoctor();
+            System.out.println(i + 1 + ".     " + us.getDectorID() + "     " + app.getDay() + "     " + app.getDate());
+
+        }
+        //takes the customer's choose
         int number = input.nextInt();
-        int id = ((Customer)user).getID();
-       for(int i =0 ;i<u.size();i++){
-           if(id==u.get(i).ID){
-              int index = ((Customer)u.get(i)).Nullappointment();
-              if(index>=0){
-                  ((Customer)u.get(i)).setApp(appointment.get(number-1), index);
-                  appointment.get(number-1).setValid(false);
-                  System.out.println("You have successfully Booked an appointment with Dr."+appointment.get(number-1).getDoctor().getDectorName());
-                  
-              }else if(index<0){
-                  System.out.println("You reached the Limits for booking an appointments");
-              }
-           }
-           
-       }
-       
-        
-        
-        
+        int id = ((Customer) user).getID();
+        //loop to get into the customer's appointments array
+        for (int i = 0; i < u.size(); i++) {
+            if (id == u.get(i).ID) {
+                int index = ((Customer) u.get(i)).Nullappointment();
+                //bring back the index to save the appointment in customer file
+                //if the index is 0 or greater then assgine the appointment
+                if (index >= 0) {
+                    ((Customer) u.get(i)).setApp(appointment.get(number - 1), index);
+                    //mark the appointment booked
+                    appointment.get(number - 1).setValid(false);
+                    System.out.println("You have successfully Booked an appointment with Dr." + appointment.get(number - 1).getDoctor().getDectorName());
+                    //if the index is less than 0 that means the customer have 3 appointments 
+                    //and can't book more than 3 till the customer goes to one and that appoitment will be deleted
+                } else if (index < 0) {
+                    System.out.println("You reached the Limits for booking an appointments");
+                }
+            }
+
+        }
+
     }
-    public static void GenerateAppointments(ArrayList<Appointment> appointment,User user,Scanner input) {
-            System.out.println("       Choose One Of The Available Appointments     ");
+
+    //might delete
+    public static void GenerateAppointments(ArrayList<Appointment> appointment, User user, Scanner input) {
+        System.out.println("       Choose One Of The Available Appointments     ");
         System.out.println("    Doctor     Day    Time ");
         System.out.println("--------------------------");
-        for (int i = 0; i < appointment.size()-1; i++) {
+        for (int i = 0; i < appointment.size() - 1; i++) {
             Appointment app = appointment.get(i);
-             Vetenrinary us = app.getDoctor();
-             System.out.println(i+1+".     " + us.getDectorID()+"     " + app.getDay()+"     " + app.getDate());
-         
-        } 
-                      int number = input.nextInt();
+            Vetenrinary us = app.getDoctor();
+            System.out.println(i + 1 + ".     " + us.getDectorID() + "     " + app.getDay() + "     " + app.getDate());
+
+        }
+        int number = input.nextInt();
 
         System.out.println("      Print All info    ");
-     for (int i = 0; i < appointment.size(); i++) {
-         if(i==number){
-            Appointment app = appointment.get(i);
-            
-            Vetenrinary us = app.getDoctor();
-           
-     System.out.println("user ID"+user.ID);
-        System.out.println("User phone"+user.Phone);
-                System.out.println("\n Doctor name   \n"+appointment.get(number-1).getDoctor().getDectorName()+"\n Doctore ID  \n "+appointment.get(number-1).getDoctor().getDectorID()+"\n Day   \n"+appointment.get(number-1).getDay()+"\n Date  \n"+appointment.get(number-1).getDate());;
- 
-            
-         }
-         
-        } 
-     
-    
-            
-            
+        for (int i = 0; i < appointment.size(); i++) {
+            if (i == number) {
+                Appointment app = appointment.get(i);
+
+                Vetenrinary us = app.getDoctor();
+
+                System.out.println("user ID" + user.ID);
+                System.out.println("User phone" + user.Phone);
+                System.out.println("\n Doctor name   \n" + appointment.get(number - 1).getDoctor().getDectorName() + "\n Doctore ID  \n " + appointment.get(number - 1).getDoctor().getDectorID() + "\n Day   \n" + appointment.get(number - 1).getDay() + "\n Date  \n" + appointment.get(number - 1).getDate());;
+
+            }
+
+        }
+
     }
-    public static boolean checkAppointment(User user, ArrayList<User> users){
+
+    //might delete 2
+    public static boolean checkAppointment(User user, ArrayList<User> users) {
         return false;
     }
 
-    public static void readAppointment(File file, ArrayList<Appointment> appointment, ArrayList<User> user) throws FileNotFoundException, ParseException {
-        Scanner input = new Scanner(file);
-        while (input.hasNext()) {
-            int id = input.nextInt();
-            Vetenrinary vet = (Vetenrinary) SearchVetenrinary(id);
-            if(vet == null){
-                System.out.println("Vet is null");
-            }else{
-            String day = input.next();
-           // System.out.println(day);
-            String time = input.next();
-            
-            String stringDate = input.next();
-            Date date = new SimpleDateFormat("dd/MM").parse(stringDate);
-            Appointment appointment1 = new Appointment(vet,day, date, time);
-            appointment.add(appointment1);
-            }
+    //search thruogh the main array for veterinary object
+    public static User SearchVetenrinary(int id) {
 
-        } 
-    }
-    public static User SearchVetenrinary( int id){
-//      
-        
+        //for loop 
         for (User vet : u) {
-                if (vet instanceof Vetenrinary) {
-                     if( ((Vetenrinary) vet).getDectorID() == id){
+            //check if the user is a vetenrinary
+            if (vet instanceof Vetenrinary) {
+                if (((Vetenrinary) vet).getDectorID() == id) {
                     return vet;
-                     }
                 }
-            
+            }
 
         }
         return null;
     }
-    public static Customer Register( Scanner input,File file) throws ParseException, FileNotFoundException {
-        
+    public static User SearchCustomer(int id) {
+
+        //for loop 
+        for (User cust : u) {
+            //check if the user is a vetenrinary
+            if (cust instanceof Customer) {
+                if (((Customer) cust).getID() == id) {
+                    return cust;
+                }
+            }
+
+        }
+        return null;
+    }
+    //Signing up a new customer
+    public static Customer Register(Scanner input, File file) throws ParseException, FileNotFoundException {
+        //ask customer to fill the required info
         System.out.println("Please enter all the information");
         System.out.println("--------------------------------");
         System.out.println("----First name: ");
@@ -213,33 +263,36 @@ public class Main {
         System.out.println("Successfully sign up ");
         Customer user = new Customer(Fname, Lname, phone, email, date1, password, userName, id);
         Scanner read = new Scanner(file);
-       ArrayList<String> line = new ArrayList<>();
-       String readline;
-       while(read.hasNextLine()){
-           readline = read.nextLine();
-           line.add(readline);
-       }
-       PrintWriter P2W = new PrintWriter(file);
-       for(int i =0;i<line.size();i++){
-           P2W.println(line.get(i));
-       } 
-       P2W.println("Add_Customer "+id+" "+Fname+" "+Lname+" "+phone+" "+email+" "+date+" "+userName+" "+password);
-       P2W.close();
+        //to save all the information from input file
+        ArrayList<String> line = new ArrayList<>();
+        String readline;
+        while (read.hasNextLine()) {
+            readline = read.nextLine();
+            line.add(readline);
+        }
+        //print the information again with the new cusotmer info
+        PrintWriter P2W = new PrintWriter(file);
+        for (int i = 0; i < line.size(); i++) {
+            P2W.println(line.get(i));
+        }
+        P2W.println("Add_Customer " + id + " " + Fname + " " + Lname + " " + phone + " " + email + " " + date + " " + userName + " " + password);
+        P2W.close();
         u.add(user);
-      
-       return user;
+
+        return user;
     }
 
-    //Nora Aloufi : method login search for all system users if the user exist then the system 
+    // method login search for all system users if the user exist then the system 
     //will return the user's object if not then will return null
-    public static User Login( Scanner input) {
+    public static User Login(Scanner input) {
         String username;
         String password;
-
+        //ask for login info
         System.out.println("Enter User name: ");
         username = input.next();
         System.out.println("Enter Password");
         password = input.next();
+        //search for the user and return it
         for (int i = 0; i < u.size(); i++) {
             if (u.get(i).getPassword().equals(password) && u.get(i).getUsername().equals(username)) {
                 return u.get(i);
@@ -247,24 +300,23 @@ public class Main {
         }
         return null;
     }
-
+    //
     public void OrganizeDocterschedule() {
 
     }
-
- 
-     public static void updeteApp(ArrayList<Appointment> appointment,User user,Scanner input){
-         System.out.println(user.ID);
+    //needs checking
+    public static void updeteApp( Scanner input) {
+        //printing user info
+        System.out.println(user.ID);
         System.out.println(user.Phone);
-         
-         Customer cus= (Customer)user;
-         cus.printAppointmentInfo();
-         System.out.println("if you do updete enter 1\n"+"if you do not updete enter 2 ");
-         int r=input.nextInt();
-        
+        //create a customer object
+        Customer cus = (Customer) user;
+        cus.printAppointmentInfo();
+        System.out.println("if you want to updete enter 1\n" + "if not enter 2 ");
+        int r = input.nextInt();
 
-         if (r==1){
-//           System.out.println("enter your app num");
+        if (r == 1) {
+//           System.out.println("enter your app id");
 //         int numapp=input.nextInt();
 //             Appointment[] appp = cus.getApp();
 //             for (int i=0;i<appp.length;i++){
@@ -273,45 +325,65 @@ public class Main {
 //                }
 //             }
             System.out.println("       Choose One Of The Available Appointments     ");
-        System.out.println("    Doctor     Day    Time ");
-        System.out.println("--------------------------");
-        
-        for (int i = 0; i < appointment.size(); i++) {
-            
-            Appointment app = appointment.get(i);
-             Vetenrinary us = app.getDoctor();
-             System.out.println(i+1+".     " + us.getDectorID()+"     " + app.getDay()+"     " + app.getDate());
-         
+            System.out.println("    Doctor     Day    Time ");
+            System.out.println("--------------------------");
+
+            for (int i = 0; i < appointment.size(); i++) {
+
+                Appointment app = appointment.get(i);
+                Vetenrinary us = app.getDoctor();
+                System.out.println(i + 1 + ".     " + us.getDectorID() + "     " + app.getDay() + "     " + app.getDate());
+
+            }
+            int number = input.nextInt();
+            int id = ((Customer) user).getID();
+            for (int i = 0; i < u.size(); i++) {
+                if (id == u.get(i).ID) {
+                    int index = ((Customer) u.get(i)).Nullappointment();
+                    if (index >= 0) {
+                        ((Customer) u.get(i)).setApp(appointment.get(number - 1), index);
+                        appointment.get(number - 1).setValid(false);
+                        System.out.println("You have successfully update your appointment with Dr." + appointment.get(number - 1).getDoctor().getDectorName());
+
+                    } else if (index < 0) {
+                        System.out.println("You reached the Limits for booking an appointments");
+                    }
+                }
+
+            }
+        } else if (r == 2) {
+
         }
-                int number = input.nextInt();
-        int id = ((Customer)user).getID();
-       for(int i =0 ;i<u.size();i++){
-           if(id==u.get(i).ID){
-              int index = ((Customer)u.get(i)).Nullappointment();
-              if(index>=0){
-                  ((Customer)u.get(i)).setApp(appointment.get(number-1), index);
-                  appointment.get(number-1).setValid(false);
-                  System.out.println("You have successfully update your appointment with Dr."+appointment.get(number-1).getDoctor().getDectorName());
-                  
-              }else if(index<0){
-                  System.out.println("You reached the Limits for booking an appointments");
-              }
-           }
-           
-       }
-         }
-         else if(r==2){
-             
-         }
 
-     }
+    }
+    //read the available appointments from the file and save if in appointments array
+    public static void readAppointment(File file) throws FileNotFoundException, ParseException {
+        Scanner input = new Scanner(file);
+        while (input.hasNext()) {
+            int id = input.nextInt();
+            Vetenrinary vet = (Vetenrinary) SearchVetenrinary(id);
+            if (vet == null) {
+                System.out.println("Vet is null");
+            } else {
+                String day = input.next();
+                // System.out.println(day);
+                String time = input.next();
 
+                String stringDate = input.next();
+                Date date = new SimpleDateFormat("dd/MM").parse(stringDate);
+                Appointment appointment1 = new Appointment(vet, day, date, time);
+                appointment.add(appointment1);
+            }
+
+        }
+    }
+    //reads and store all the users information from the input file 
     public static void StartingUp(File file) throws FileNotFoundException, ParseException {
-        
+
         //Scanner to read from the file
         Scanner readfile = new Scanner(file);
-       // Vetenrinary[] vet = new Vetenrinary[readfile.nextInt()];
-       // Admin[] admin = new Admin[readfile.nextInt()]; 
+        // Vetenrinary[] vet = new Vetenrinary[readfile.nextInt()];
+        // Admin[] admin = new Admin[readfile.nextInt()]; 
         int count = 0;
         while (readfile.hasNext()) {
             String command = readfile.next();
@@ -326,14 +398,14 @@ public class Main {
                 Date date = dateFormat.parse(readfile.next());
                 String Username = readfile.next();
                 String Password = readfile.next();
-                
+
                 char g = readfile.next().charAt(0);
                 double sal = readfile.nextDouble();
-               // User user = new User(fname,lname,phone,email,date,Password, Username , id );//Extra
+                // User user = new User(fname,lname,phone,email,date,Password, Username , id );//Extra
                 User vet = new Vetenrinary(id, fname, lname, phone, email, date, Password, Username, room, g, sal);
                 u.add(vet);
-               // u.add(user);//Extra
-               
+                // u.add(user);//Extra
+
             }
             if (command.equalsIgnoreCase("Add_Admin")) {
                 int id = readfile.nextInt();
@@ -347,10 +419,10 @@ public class Main {
                 String Username = readfile.next();
                 char g = readfile.next().charAt(0);
                 double sal = readfile.nextDouble();
-                User admin = new Admin(id,fname,lname,phone,email,date,Password,Username,g,sal);
+                User admin = new Admin(id, fname, lname, phone, email, date, Password, Username, g, sal);
                 u.add(admin);
             }
-            if(command.equalsIgnoreCase("Add_Customer")){
+            if (command.equalsIgnoreCase("Add_Customer")) {
                 int id = readfile.nextInt();
                 String fname = readfile.next();
                 String lname = readfile.next();
@@ -360,16 +432,10 @@ public class Main {
                 Date date = dateFormat.parse(readfile.next());
                 String Password = readfile.next();
                 String Username = readfile.next();
-                User customer = new Customer(fname,lname,phone,email,date,Username,Password,id);
+                User customer = new Customer(fname, lname, phone, email, date, Username, Password, id);
                 u.add(customer);
             }
         }
-      
-        
-
-
-   
-
 
     }
 
