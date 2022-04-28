@@ -92,7 +92,8 @@ public class Main {
         System.out.println("       Choose one of the services:");
         System.out.println("            1.Book an appointment\n"
                 + "            2.Reschedule your appointment \n" );
-        System.out.print("            3.View prescription ");
+        System.out.println("            3.View prescription ");
+        System.out.println("            4.delete an appointment ");
 
         int select = input.nextInt();
 
@@ -107,6 +108,9 @@ public class Main {
 
             case 4:
                 GenerateAppointments(appointment, user, input);
+                case 5:
+                   //we need to genreat appointmentnum with math.random and set it to AppID
+                  deleteAppointment(input);
 
         }
     }
@@ -207,6 +211,25 @@ public class Main {
     //might delete 2
     public static boolean checkAppointment(User user, ArrayList<User> users) {
         return false;
+    }
+    
+      public static boolean deleteAppointment(Scanner input) {
+          ((Customer)user).printAppointmentInfo();
+                  
+           System.out.println("Enter your appointment number");
+           int appointmentnum = input.nextInt();
+           appointmentnum = (appointmentnum-1);
+//          appointmentnum.getAppId();
+       for (int i=0;i<appointment.size();i++){
+            Appointment app = appointment.get(i);
+//         if(((Customer)user).app[i] == appointmentnum)
+          appointment.set(i, null);
+        System.out.println("Appointment deleted successfully");  
+        return true;
+        }
+           System.out.println("no booked Appointment with that number ");  
+        return false;
+          
     }
 
     //search thruogh the main array for veterinary object

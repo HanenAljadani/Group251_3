@@ -31,12 +31,14 @@ public class Customer extends User {
     
     
     public void printAppointmentInfo(){
-        if(app.length == 0 ){
+        if(app[0] == null ){
           System.out.println("You don't have any appointment");  
         }else{
-        System.out.println("You have "+app.length+" appointment");
+        System.out.println("You have appointment");
         for(int i = 0 ; i < app.length; i++  ){
-             System.out.println("------  "+(i+1)+" .");
+            if(app[i]==null)
+                break;
+             System.out.println("------"+(i++)+" . "+app[i].appId+" .");
              //here Print all Appointment info from APPOINTMENT CLASS
         }
         }
