@@ -19,14 +19,23 @@ public class Appointment {
     String day;
     boolean valid;
     int appId;
-
-    public Appointment(Vetenrinary doctor, Date date, String time, String day, boolean valid, int appId) {
+    Pets pet;
+    public Appointment(Vetenrinary doctor, Date date, String time, String day, boolean valid, int appId,Pets pet) {
         this.doctor = doctor;
         this.date = date;
         this.time = time;
         this.day = day;
         this.valid = valid;
         this.appId = appId;
+        this.pet = pet;
+    }
+
+    public void setPet(Pets pet) {
+        this.pet = pet;
+    }
+
+    public Pets getPet() {
+        return pet;
     }
 
     public int getAppId() {

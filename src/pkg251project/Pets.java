@@ -16,10 +16,18 @@ public class Pets {
     int age;
     String sex;
     Customer petOwnerId;
-    private String ill;
-    private String bloodtype;
-
+     String ill;
+     String bloodtype;
     String type;
+
+    public Pets(String name, int age, String sex, Customer petOwnerId, String bloodtype, String type) {
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+        this.petOwnerId = petOwnerId;
+        this.bloodtype = bloodtype;
+        this.type = type;
+    }
 
     public void inianimalInfo(String name, String type, String sex, int age, String desc, Customer username) {
         this.petOwnerId = username;

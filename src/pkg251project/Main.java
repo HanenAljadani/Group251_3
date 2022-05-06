@@ -77,15 +77,73 @@ public class Main {
             Vetenrinary(input);
          }
         if(user instanceof Admin){
-            
+           AdminMenu(input); 
         }
         }
     }
-    public static void AdminMenu(){
+    public static void AdminMenu(Scanner input){
         System.out.println(" Welcome back Admin");
-        System.out.println("Report generation ...");
-        //Method of reports 
+        System.out.print("You can generate report ,but first Enter vetenrinary ID : ");
+        int ID = input.nextInt();      
         
+        User vetenrainary = SearchVetenrinary(ID);
+        
+        System.out.println("-------------------- Report of "+vetenrainary.getName()+" --------------------");
+        System.out.println("   Vetenrainary Information "); 
+        System.out.println("Name   : "+ vetenrainary.getName() +   "          ID    : "+vetenrainary.getID());
+        System.out.println("Email  : "+ vetenrainary.getEmail() +  "          Phone : "+vetenrainary.getPhone());
+        System.out.println("Gender : "+ vetenrainary.getGender() + "          Date of Birth : "+vetenrainary.getDoB());
+        
+        
+        //Print all Appointments of vetenrainary 
+        SearchInCustomerAppointment(vetenrainary);
+        
+        
+        
+        //Print the time and date of report 
+        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date d = new Date();
+        System.out.println("Report of "+vetenrainary.getName()+ " written in "+f.format(d));
+        
+        
+        
+    }
+     public static void SearchInCustomerAppointment( User Veten) {
+
+        //for loop 
+        Appointment[] appointment = null;
+        Pets pet = null;
+        int m = 1;
+        for (User cust : u) {
+            //check if the user is a vetenrinary
+            if (cust instanceof Customer) {
+                appointment = ((Customer) cust).getApp();
+                for(int i = 0 ; i < appointment.length ; i++){
+                    if(appointment[i].getDoctor() == Veten){
+                        pet = appointment[i].getPet();
+                        
+                        System.out.println("   " +m+" Appointment");
+                        m++;
+                        
+                        System.out.println("    Customer Information   ");
+                        System.out.println("Name   : " + cust.getName()   + "          ID    : " + cust.getID());
+                        System.out.println("Email  : " + cust.getEmail()  + "          Phone : " + cust.getPhone());
+                        System.out.println("Gender : " + cust.getGender() + "          Date of Birth : " + cust.getDoB());
+                        
+                        System.out.println("    Pet Information   ");
+                        System.out.println("Pet Name : " + pet.getName() + "         Pet Type   : " + pet.getType());
+                        System.out.println("Pet Age  : " + pet.getAge()  + "         Pet Gender : " + pet.getSex());
+                        System.out.println("Pet Blood Type : "+pet.getBloodtype());
+                        
+                        System.out.println("    Appointment Information   ");
+                        System.out.println("Date and Time  : " + appointment[i].getDate()   + "          Day    : " + appointment[i].getDay());
+                        System.out.println("--------------------------------------------------------------------------------");
+                        
+                    }
+                }
+            }
+
+        }
     }
     public static void CustomerMenu(Scanner input){
         System.out.println("       Welcome Back ");
@@ -163,6 +221,23 @@ public class Main {
                 //bring back the index to save the appointment in customer file
                 //if the index is 0 or greater then assgine the appointment
                 if (index >= 0) {
+                    
+                    System.out.println("Please Enter Information Of Your Pet ");
+                    System.out.print("Pet Name :");
+                    String name = input.next();
+                    System.out.print("Pet Type :");
+                    String type = input.next();
+                    System.out.print("Pet Age :");
+                    int age = input.nextInt();
+                    System.out.print("Pet Gender :");
+                    String gender = input.next();
+                    System.out.print("Pet Blood Type :");
+                    String bloodtype = input.next();
+                    Pets pet= new Pets(name,age,gender,(Customer) user,bloodtype,type);
+                    //
+                    
+                    
+                    
                     ((Customer) u.get(i)).setApp(appointment.get(number - 1), index);
                     //mark the appointment booked
                     appointment.get(number - 1).setValid(false);
@@ -251,7 +326,7 @@ public class Main {
 
         //for loop 
         for (User cust : u) {
-            //check if the user is a vetenrinary
+            //check if the user is a Customer
             if (cust instanceof Customer) {
                 if (((Customer) cust).getID() == id) {
                     return cust;

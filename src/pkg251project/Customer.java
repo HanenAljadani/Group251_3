@@ -89,5 +89,12 @@ public class Customer extends User {
          }
          return -1;      
     }
+    public  int Nullpet(){
+         for(int i=0;i<pet.length;i++){
+             if(pet[i]==null)
+                 return i;
+         }
+         return -1;      
+    }
 
 }
