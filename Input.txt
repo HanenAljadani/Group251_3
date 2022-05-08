@@ -9,6 +9,6 @@ Add_VETERINARY 0250 Mohammed Zahrani 103 5001204 MohammedZahrani@gmail.com 12/09
 
 Add_Admin  9002 Fatima Ahmed  4001244  FatimaAhmed@gmail.com 01/01/1997 Fatima1234 Fatima F 3500
 Add_Admin  9003 Laila Shahri 4001245 LailaShahri@gmail.com 16/08/1998  Laila1234 Laila F 3500
-Add_Customer 1234 nora aloufi 3355889922 nora@gmail.com 06/05/1999 nora nora1234
-Add_Customer 111 asd ddd 123 asd@gmail.com 22/4/2004 asd 333
-Add_Customer 111 qqq www 122 aa@gmail.com 23/3/2003 qqq 111
+Add_Customer 1234 nora aloufi 3355889922 nora@gmail.com 06/05/1999 nora nora1234 F
+Add_Customer 111 asd ddd 123 asd@gmail.com 22/4/2004 asd 333 M
+Add_Customer 111 qqq www 122 aa@gmail.com 23/3/2003 qqq 111 F

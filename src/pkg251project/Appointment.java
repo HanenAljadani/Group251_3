@@ -84,6 +84,10 @@ public class Appointment {
         this.time = time;
     }
 
+    public boolean isValid() {
+        return valid;
+    }
+
     public void setValid(boolean valid) {
         this.valid = valid;
     }

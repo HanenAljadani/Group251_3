@@ -155,7 +155,7 @@ public class Main {
         System.out.println("            3.View prescription ");
         System.out.println("            4.delete an appointment ");
         System.out.println("            5.View record");
-         System.out.println("           6.Exit  ");
+         System.out.println("           6.Log Out  ");
         int select = input.nextInt();
 
         switch (select) {
@@ -185,13 +185,15 @@ public class Main {
         }
     }
     public static void Vetenrinary(Scanner input){
-        System.out.println("Welcome back Vetenrinary");
+        System.out.println("Welcome back Vetenrinary"+user.getName());
+        while(true){
         System.out.println("Enter the Customer ID");
         
         int id = input.nextInt();
         user = SearchCustomer(id);
         if(user == null){
             System.out.println("Sorry, this customer not found");
+            System.out.println("Try Again!");
         }else{
             System.out.println("You can add medicine to "+user.getName());
             System.out.print("Write the medicine code : ");
@@ -204,8 +206,16 @@ public class Main {
             Medication medicine = new Medication(code, name , price);
             
            ((Customer)user).setMedication(medicine);
-           
-           System.out.println("Thank you, ");
+           System.out.println("------------------------------------------");
+           System.out.println(" The Medicine has been added Successfully  ");
+           System.out.println("------------------------------------------");
+           System.out.println("Add another Medicine?");
+           String choose = input.next();
+           if(choose.equalsIgnoreCase("yes")){
+               continue;
+           }else
+               break;
+        }
         } 
         
     }
@@ -228,6 +238,7 @@ public class Main {
        appoitmentprint();
         //takes the customer's choose
         int number = input.nextInt();
+        number--;
         int id = ((Customer) user).getID();
         //loop to get into the customer's appointments array
         //
@@ -251,18 +262,23 @@ public class Main {
                     String bloodtype = input.next();
                     Pets pet= new Pets(name,age,gender,(Customer) user,bloodtype,type);
                     //
-                    appointment.get(number-1).setPet(pet);
+                    appointment.get(number).setPet(pet);
                     
                     
-                    ((Customer) u.get(i)).setApp(appointment.get(number - 1), index);
+                    ((Customer) u.get(i)).setApp(appointment.get(number), index);
                     //mark the appointment booked
-                    appointment.get(number - 1).setValid(false);
-                    appointment.remove(number -1);
-                    System.out.println("You have successfully Booked an appointment with Dr." + appointment.get(number - 1).getDoctor().getDectorName());
+                    appointment.get(number).setValid(false);
+                    appointment.remove(number);
+                    System.out.println("------------------------------------------------------------------------------------------------------------------------------");
+                    System.out.println("You have successfully Booked an appointment with Dr." + appointment.get(number).getDoctor().getDectorName());
+                    System.out.println("The total Bill: "+((Customer) u.get(i)).getBill()+"$");
+                    System.out.println("------------------------------------------------------------------------------------------------------------------------------");
                     //if the index is less than 0 that means the customer have 3 appointments 
                     //and can't book more than 3 till the customer goes to one and that appoitment will be deleted
                 } else if (index < 0) {
-                    System.out.println("You reached the Limits for booking an appointments");
+                     System.out.println("------------------------------------------------------------------------------------------------------------------------------");
+                     System.out.println("You reached the Limits for booking an appointments");
+                     System.out.println("------------------------------------------------------------------------------------------------------------------------------");
                 }
             }
 
@@ -270,35 +286,6 @@ public class Main {
 
     }
 
-    //might delete
-   /* public static void GenerateAppointments(ArrayList<Appointment> appointment, User user, Scanner input) {
-        System.out.println("       Choose One Of The Available Appointments     ");
-        System.out.println("    Doctor     Day    Time ");
-        System.out.println("--------------------------");
-        for (int i = 0; i < appointment.size() - 1; i++) {
-            Appointment app = appointment.get(i);
-            Vetenrinary us = app.getDoctor();
-            System.out.println(i + 1 + ".     " + us.getDectorID() + "     " + app.getDay() + "     " + app.getDate());
-
-        }
-        int number = input.nextInt();
-
-        System.out.println("      Print All info    ");
-        for (int i = 0; i < appointment.size(); i++) {
-            if (i == number) {
-                Appointment app = appointment.get(i);
-
-                Vetenrinary us = app.getDoctor();
-
-                System.out.println("user ID" + user.ID);
-                System.out.println("User phone" + user.Phone);
-                System.out.println("\n Doctor name   \n" + appointment.get(number - 1).getDoctor().getDectorName() + "\n Doctore ID  \n " + appointment.get(number - 1).getDoctor().getDectorID() + "\n Day   \n" + appointment.get(number - 1).getDay() + "\n Date  \n" + appointment.get(number - 1).getDate());
-
-            }
-
-        }
-
-    }*/
 
     
     
@@ -311,7 +298,9 @@ public class Main {
            Appointment app = ((Customer)user).getApp(appnum-1);
           ((Customer)user).setApp(null, appnum-1);
          appointment.add(app);
-        System.out.println("Appointment deleted successfully");  
+         System.out.println("------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("Appointment deleted successfully"); 
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------");
         
         }
                   }
@@ -357,6 +346,8 @@ public class Main {
         String Fname = input.next();
         System.out.println("----Last name: ");
         String Lname = input.next();
+        System.out.println("----Gender: ");
+        char g = input.next().charAt(0);
         System.out.println("----Phone number: ");
         String phone = input.next();
         System.out.println("----Email: ");
@@ -370,8 +361,9 @@ public class Main {
         String userName = input.next();
         System.out.println("----Password: ");
         String password = input.next();
+        
         System.out.println("Successfully sign up ");
-        Customer user = new Customer(Fname, Lname, phone, email, date1, password, userName, id);
+        Customer user = new Customer(Fname, Lname, phone, email, date1, password, userName, id,g);
         Scanner read = new Scanner(file);
         //to save all the information from input file
         ArrayList<String> line = new ArrayList<>();
@@ -416,59 +408,53 @@ public class Main {
     public static void UpDateApp( Scanner input) {
         //printing user info
         //create a customer object
-        Customer cus = (Customer) user;
+        Customer cus = ((Customer) user);
        int check= cus.printAppointmentInfo();
        if(check>=0){
         System.out.println("Enter your appointment number");
         int r = input.nextInt();
-        Appointment app =cus.getApp(r-1);
+                r=r-1;
+          
+        Appointment app =cus.getApp(r);
+        Pets pet = app.getPet();
+           
        
-//           System.out.println("enter your app id");
-//         int numapp=input.nextInt();
-//             Appointment[] appp = cus.getApp();
-//             for (int i=0;i<appp.length;i++){
-//                if (appp[i].getAppId()==numapp){
-//                    boolean name = appp[i]==null;
-//                }
-//             }
             appoitmentprint();
             System.out.println("Select your new appointment");
             int number = input.nextInt();
-           cus.setApp(appointment.get(number-1), r-1);
-           appointment.get(number-1).setValid(false);
+            appointment.get(number-1).setPet(pet);
+           cus.setApp(appointment.get(number-1), r);
+           appointment.get(number-1).setValid(true);
            appointment.remove(number-1);
            appointment.add(app);
+           System.out.println("------------------------------------------------------------------------------------------------------------------------------");
+           System.out.println("Your Appointment has been updated Successfully");
+           System.out.println("------------------------------------------------------------------------------------------------------------------------------");
        }
 
     }
      public static void viewrecod( Scanner input) {
-      System.out.println("      Print All info    ");
      
-        System.out.print("You can generate report ,but first Enter vetenrinary ID : ");
-        int ID = input.nextInt();      
+     
+       
+        Customer cus = ((Customer)user);
+       
         
-        User vetenrainary = SearchVetenrinary(ID);
-        
-        System.out.println("-------------------- Report of "+vetenrainary.getName()+" --------------------");
+        System.out.println("-------------------- Record of "+cus.getName()+" --------------------");
         System.out.println("   Vetenrainary Information "); 
-        System.out.println("Name   : "+ vetenrainary.getName() +   "          ID    : "+vetenrainary.getID());
-        System.out.println("Email  : "+ vetenrainary.getEmail() +  "          Phone : "+vetenrainary.getPhone());
-        System.out.println("Gender : "+ vetenrainary.getGender() );
+        System.out.println("Name   : "+ cus.getName() +   "          ID    : "+cus.getID());
+        System.out.println("Email  : "+cus.getEmail() +  "          Phone : "+cus.getPhone());
+        System.out.println("Gender : "+ cus.getGender() );
+        System.out.println("-------------------- Appointment of "+cus.getName()+" --------------------");
+         cus.printAppointmentInfo();
+         System.out.println();
+         System.out.println("-------------------- Prescription  --------------------");
+         cus.printMed();
+         System.out.println("");
         
         
-        //Print all Appointments of vetenrainary 
-        SearchInCustomerAppointment(vetenrainary);
         
         
-        
-        //Print the time and date of report 
-        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date d = new Date();
-        System.out.println("Report of "+vetenrainary.getName()+ " written in "+f.format(d)); 
-//        ((Customer)user).setMedication(medicine);
-             //Medication medicine = new Medication();
-        //((Customer)user).getMedication(medicine);
-
     
      }
     //read the available appointments from the file and save if in appointments array
@@ -548,7 +534,8 @@ public class Main {
                 Date date = dateFormat.parse(readfile.next());
                 String Password = readfile.next();
                 String Username = readfile.next();
-                User customer = new Customer(fname, lname, phone, email, date, Username, Password, id);
+                char g = readfile.next().charAt(0);
+                User customer = new Customer(fname, lname, phone, email, date, Username, Password, id,g);
                 u.add(customer);
             }
         }

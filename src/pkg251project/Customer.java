@@ -16,13 +16,19 @@ public class Customer extends User {
     Appointment[] app;
     double Bill;
     Medication medication;
+    char Gender;
 
 
-    public Customer( String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username, int ID) {
+    public Customer( String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username, int ID,char gender) {
         super(Fname, Lname, Phone, Email, DoB, Password, username, ID);
         app = new Appointment[3];
         this.Bill=0;
+        this.Gender=gender;
         
+    }
+
+    public char getGender() {
+        return Gender;
     }
 
     public void setMedication(Medication medication) {
@@ -50,10 +56,13 @@ public class Customer extends User {
         for( i = 0 ; i < app.length; i++  ){
             if(app[i]==null)
                 break;
-             System.out.println("------"+(i+1)+" . "+app[i].appId+" .");
+            else{
+             System.out.println("-"+(i+1)+". Appointment number: "+app[i].appId+"\n  Vetenrinary Name: "+
+             app[i].getDoctor().getDectorName()+"\n  Appointment Date: "+app[i].getDate()+"\n For "+app[i].getPet().getName());
              //here Print all Appointment info from APPOINTMENT CLASS
         }
-        return i;
+        }
+        return i--;
         }
         
     }
