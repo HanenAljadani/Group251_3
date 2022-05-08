@@ -170,6 +170,7 @@ public class Main {
                   
                   deleteAppointment(input);
                 case 6:
+                    viewrecod(input);
                     
 
         }
@@ -199,7 +200,7 @@ public class Main {
         } 
         
     }
-    
+    //somthing wrong stuck in an infinite loop
     //this method print a menu for available appointments
     public static void bookAppointment( Scanner input) {
         //print statetments
@@ -217,13 +218,14 @@ public class Main {
         int number = input.nextInt();
         int id = ((Customer) user).getID();
         //loop to get into the customer's appointments array
+        //
         for (int i = 0; i < u.size(); i++) {
             if (id == u.get(i).ID) {
                 int index = ((Customer) u.get(i)).Nullappointment();
                 //bring back the index to save the appointment in customer file
                 //if the index is 0 or greater then assgine the appointment
                 if (index >= 0) {
-                    
+                    //somthing wrong stuck in an infinite loop 
                     System.out.println("Please Enter Information Of Your Pet ");
                     System.out.print("Pet Name :");
                     String name = input.next();
@@ -458,19 +460,18 @@ public class Main {
     }
      public static void viewrecod( Scanner input) {
       System.out.println("      Print All info    ");
-        for (int i = 0; i < appointment.size(); i++) {
-          
-                Appointment app = appointment.get(i);
-
-                Vetenrinary us = app.getDoctor();
-                System.out.println("User Name" + user.getName());
-                System.out.println("User Username" + user.getUsername());
-                System.out.println("user ID" + user.ID);
-                System.out.println("User phone" + user.Phone);
-//                System.out.println("\n Doctor name   \n" + appointment.get(number - 1).getDoctor().getDectorName() + "\n Doctore ID  \n " + appointment.get(number - 1).getDoctor().getDectorID() + "\n Day   \n" + appointment.get(number - 1).getDay() + "\n Date  \n" + appointment.get(number - 1).getDate());
-                System.out.println("User Email" + user.Email);
-                
-            
+//        for (int i = 0; i < appointment.size(); i++) {
+//          
+//                Appointment app = appointment.get(i);
+//
+//                Vetenrinary us = app.getDoctor();
+//                System.out.println("User Name" + user.getName());
+//                System.out.println("User Username" + user.getUsername());
+//                System.out.println("user ID" + user.ID);
+//                System.out.println("User phone" + user.Phone);
+//                System.out.println("User Email" + user.Email);
+//               
+//            }
         System.out.print("You can generate report ,but first Enter vetenrinary ID : ");
         int ID = input.nextInt();      
         
@@ -492,8 +493,10 @@ public class Main {
         SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date d = new Date();
         System.out.println("Report of "+vetenrainary.getName()+ " written in "+f.format(d)); 
+//        ((Customer)user).setMedication(medicine);
+Medication medicine = new Medication();
+        ((Customer)user).getMedication(medicine);
 
-            }
     
      }
     //read the available appointments from the file and save if in appointments array
