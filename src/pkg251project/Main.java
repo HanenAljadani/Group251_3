@@ -152,7 +152,7 @@ public class Main {
                 + "            2.Reschedule your appointment \n" );
         System.out.println("            3.View prescription ");
         System.out.println("            4.delete an appointment ");
-
+        System.out.println("            5.View record");
         int select = input.nextInt();
 
         switch (select) {
@@ -167,8 +167,10 @@ public class Main {
             case 4:
                 GenerateAppointments(appointment, user, input);
                 case 5:
-                   //we need to genreat appointmentnum with math.random and set it to AppID
+                  
                   deleteAppointment(input);
+                case 6:
+                    
 
         }
     }
@@ -275,7 +277,7 @@ public class Main {
 
                 System.out.println("user ID" + user.ID);
                 System.out.println("User phone" + user.Phone);
-                System.out.println("\n Doctor name   \n" + appointment.get(number - 1).getDoctor().getDectorName() + "\n Doctore ID  \n " + appointment.get(number - 1).getDoctor().getDectorID() + "\n Day   \n" + appointment.get(number - 1).getDay() + "\n Date  \n" + appointment.get(number - 1).getDate());;
+                System.out.println("\n Doctor name   \n" + appointment.get(number - 1).getDoctor().getDectorName() + "\n Doctore ID  \n " + appointment.get(number - 1).getDoctor().getDectorID() + "\n Day   \n" + appointment.get(number - 1).getDay() + "\n Date  \n" + appointment.get(number - 1).getDate());
 
             }
 
@@ -454,6 +456,46 @@ public class Main {
         }
 
     }
+     public static void viewrecod( Scanner input) {
+      System.out.println("      Print All info    ");
+        for (int i = 0; i < appointment.size(); i++) {
+          
+                Appointment app = appointment.get(i);
+
+                Vetenrinary us = app.getDoctor();
+                System.out.println("User Name" + user.getName());
+                System.out.println("User Username" + user.getUsername());
+                System.out.println("user ID" + user.ID);
+                System.out.println("User phone" + user.Phone);
+//                System.out.println("\n Doctor name   \n" + appointment.get(number - 1).getDoctor().getDectorName() + "\n Doctore ID  \n " + appointment.get(number - 1).getDoctor().getDectorID() + "\n Day   \n" + appointment.get(number - 1).getDay() + "\n Date  \n" + appointment.get(number - 1).getDate());
+                System.out.println("User Email" + user.Email);
+                
+            
+        System.out.print("You can generate report ,but first Enter vetenrinary ID : ");
+        int ID = input.nextInt();      
+        
+        User vetenrainary = SearchVetenrinary(ID);
+        
+        System.out.println("-------------------- Report of "+vetenrainary.getName()+" --------------------");
+        System.out.println("   Vetenrainary Information "); 
+        System.out.println("Name   : "+ vetenrainary.getName() +   "          ID    : "+vetenrainary.getID());
+        System.out.println("Email  : "+ vetenrainary.getEmail() +  "          Phone : "+vetenrainary.getPhone());
+        System.out.println("Gender : "+ vetenrainary.getGender() );
+        
+        
+        //Print all Appointments of vetenrainary 
+        SearchInCustomerAppointment(vetenrainary);
+        
+        
+        
+        //Print the time and date of report 
+        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date d = new Date();
+        System.out.println("Report of "+vetenrainary.getName()+ " written in "+f.format(d)); 
+
+            }
+    
+     }
     //read the available appointments from the file and save if in appointments array
     public static void readAppointment(File file) throws FileNotFoundException, ParseException {
         Scanner input = new Scanner(file);
