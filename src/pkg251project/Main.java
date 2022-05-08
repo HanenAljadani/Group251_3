@@ -52,7 +52,7 @@ public class Main {
         System.out.println("--------------------------------------");
         System.out.println("            1.Sign up ");
         System.out.println("            2.Login   ");
-        System.out.println("            3.Exit  ");
+       
         System.out.println("       Please Enter a number:");
         int number = input.nextInt();
 
@@ -81,8 +81,9 @@ public class Main {
         }
         }
     }
+    //get back to it
     public static void AdminMenu(Scanner input){
-        System.out.println(" Welcome back Admin");
+        System.out.println(" Welcome back Admin"+user.getName());
         System.out.print("You can generate report ,but first Enter vetenrinary ID : ");
         int ID = input.nextInt();      
         
@@ -111,16 +112,16 @@ public class Main {
      public static void SearchInCustomerAppointment( User Veten) {
 
         //for loop 
-        Appointment[] appointment = null;
+        Appointment[] app = null;
         Pets pet = null;
         int m = 1;
         for (User cust : u) {
             //check if the user is a vetenrinary
             if (cust instanceof Customer) {
-                appointment = ((Customer) cust).getApp();
-                for(int i = 0 ; i < appointment.length ; i++){
-                    if(appointment[i].getDoctor() == Veten){
-                        pet = appointment[i].getPet();
+                app = ((Customer) cust).getAppArray();
+                for(int i = 0 ; i < app.length ; i++){
+                    if(app[i].getDoctor() == Veten){
+                        pet = app[i].getPet();
                         
                         System.out.println("   " +m+" Appointment");
                         m++;
@@ -136,7 +137,7 @@ public class Main {
                         System.out.println("Pet Blood Type : "+pet.getBloodtype());
                         
                         System.out.println("    Appointment Information   ");
-                        System.out.println("Date and Time  : " + appointment[i].getDate()   + "          Day    : " + appointment[i].getDay());
+                        System.out.println("Date and Time  : " + app[i].getDate()   + "          Day    : " + app[i].getDay());
                         System.out.println("--------------------------------------------------------------------------------");
                         
                     }
@@ -145,33 +146,41 @@ public class Main {
 
         }
     }
-    public static void CustomerMenu(Scanner input){
+    public static int CustomerMenu(Scanner input){
         System.out.println("       Welcome Back ");
+        while(true){
         System.out.println("       Choose one of the services:");
         System.out.println("            1.Book an appointment\n"
-                + "            2.Reschedule your appointment \n" );
+                + "            2.Reschedule your appointment " );
         System.out.println("            3.View prescription ");
         System.out.println("            4.delete an appointment ");
         System.out.println("            5.View record");
+         System.out.println("           6.Exit  ");
         int select = input.nextInt();
 
         switch (select) {
             case 1:
                 bookAppointment( input);
+                break;
 
             case 2:
-                boolean checkCustomerAppointment = checkAppointment(user, u);
+                 UpDateApp( input);
+                break;
             case 3:
-                updeteApp( input);
-
+                 ((Customer)user).printMed();
+                break;
             case 4:
-                GenerateAppointments(appointment, user, input);
+               // GenerateAppointments(appointment, user, input);
+                   deleteAppointment(input);
+                break;
                 case 5:
-                  
-                  deleteAppointment(input);
+                  viewrecod(input);
+               
+                  break;
                 case 6:
-                    viewrecod(input);
-                    
+                    return 0;
+                   
+        }   
 
         }
     }
@@ -202,7 +211,7 @@ public class Main {
     }
     //somthing wrong stuck in an infinite loop
     //this method print a menu for available appointments
-    public static void bookAppointment( Scanner input) {
+    public static void appoitmentprint(){
         //print statetments
         System.out.println("       Choose One Of The Available Appointments     ");
         System.out.println("    Doctor     Day    Time ");
@@ -214,6 +223,9 @@ public class Main {
             System.out.println(i + 1 + ".     " + us.getDectorID() + "     " + app.getDay() + "     " + app.getDate());
 
         }
+    }
+    public static void bookAppointment( Scanner input) {
+       appoitmentprint();
         //takes the customer's choose
         int number = input.nextInt();
         int id = ((Customer) user).getID();
@@ -239,12 +251,13 @@ public class Main {
                     String bloodtype = input.next();
                     Pets pet= new Pets(name,age,gender,(Customer) user,bloodtype,type);
                     //
-                    
+                    appointment.get(number-1).setPet(pet);
                     
                     
                     ((Customer) u.get(i)).setApp(appointment.get(number - 1), index);
                     //mark the appointment booked
                     appointment.get(number - 1).setValid(false);
+                    appointment.remove(number -1);
                     System.out.println("You have successfully Booked an appointment with Dr." + appointment.get(number - 1).getDoctor().getDectorName());
                     //if the index is less than 0 that means the customer have 3 appointments 
                     //and can't book more than 3 till the customer goes to one and that appoitment will be deleted
@@ -258,7 +271,7 @@ public class Main {
     }
 
     //might delete
-    public static void GenerateAppointments(ArrayList<Appointment> appointment, User user, Scanner input) {
+   /* public static void GenerateAppointments(ArrayList<Appointment> appointment, User user, Scanner input) {
         System.out.println("       Choose One Of The Available Appointments     ");
         System.out.println("    Doctor     Day    Time ");
         System.out.println("--------------------------");
@@ -285,31 +298,26 @@ public class Main {
 
         }
 
-    }
+    }*/
 
-    //might delete 2
-    public static boolean checkAppointment(User user, ArrayList<User> users) {
-        return false;
-    }
     
-      public static boolean deleteAppointment(Scanner input) {
-          ((Customer)user).printAppointmentInfo();
-                  
+    
+    
+      public static void deleteAppointment(Scanner input) {
+        int index=  ((Customer)user).printAppointmentInfo();
+                  if(index>=0){
            System.out.println("Enter your appointment number");
-           int appointmentnum = input.nextInt();
-           appointmentnum = (appointmentnum-1);
-//          appointmentnum.getAppId();
-       for (int i=0;i<appointment.size();i++){
-            Appointment app = appointment.get(i);
-//         if(((Customer)user).app[i] == appointmentnum)
-          appointment.set(i, null);
+           int appnum = input.nextInt();
+           Appointment app = ((Customer)user).getApp(appnum-1);
+          ((Customer)user).setApp(null, appnum-1);
+         appointment.add(app);
         System.out.println("Appointment deleted successfully");  
-        return true;
+        
         }
-           System.out.println("no booked Appointment with that number ");  
-        return false;
+                  }
+         
           
-    }
+    
 
     //search thruogh the main array for veterinary object
     public static User SearchVetenrinary(int id) {
@@ -403,21 +411,18 @@ public class Main {
         return null;
     }
     //
-    public void OrganizeDocterschedule() {
-
-    }
+   
     //needs checking
-    public static void updeteApp( Scanner input) {
+    public static void UpDateApp( Scanner input) {
         //printing user info
-        System.out.println(user.ID);
-        System.out.println(user.Phone);
         //create a customer object
         Customer cus = (Customer) user;
-        cus.printAppointmentInfo();
-        System.out.println("if you want to updete enter 1\n" + "if not enter 2 ");
+       int check= cus.printAppointmentInfo();
+       if(check>=0){
+        System.out.println("Enter your appointment number");
         int r = input.nextInt();
-
-        if (r == 1) {
+        Appointment app =cus.getApp(r-1);
+       
 //           System.out.println("enter your app id");
 //         int numapp=input.nextInt();
 //             Appointment[] appp = cus.getApp();
@@ -426,52 +431,19 @@ public class Main {
 //                    boolean name = appp[i]==null;
 //                }
 //             }
-            System.out.println("       Choose One Of The Available Appointments     ");
-            System.out.println("    Doctor     Day    Time ");
-            System.out.println("--------------------------");
-
-            for (int i = 0; i < appointment.size(); i++) {
-
-                Appointment app = appointment.get(i);
-                Vetenrinary us = app.getDoctor();
-                System.out.println(i + 1 + ".     " + us.getDectorID() + "     " + app.getDay() + "     " + app.getDate());
-
-            }
+            appoitmentprint();
+            System.out.println("Select your new appointment");
             int number = input.nextInt();
-            int id = ((Customer) user).getID();
-            for (int i = 0; i < u.size(); i++) {
-                if (id == u.get(i).ID) {
-                    int index = ((Customer) u.get(i)).Nullappointment();
-                    if (index >= 0) {
-                        ((Customer) u.get(i)).setApp(appointment.get(number - 1), index);
-                        appointment.get(number - 1).setValid(false);
-                        System.out.println("You have successfully update your appointment with Dr." + appointment.get(number - 1).getDoctor().getDectorName());
-
-                    } else if (index < 0) {
-                        System.out.println("You reached the Limits for booking an appointments");
-                    }
-                }
-
-            }
-        } else if (r == 2) {
-
-        }
+           cus.setApp(appointment.get(number-1), r-1);
+           appointment.get(number-1).setValid(false);
+           appointment.remove(number-1);
+           appointment.add(app);
+       }
 
     }
      public static void viewrecod( Scanner input) {
       System.out.println("      Print All info    ");
-//        for (int i = 0; i < appointment.size(); i++) {
-//          
-//                Appointment app = appointment.get(i);
-//
-//                Vetenrinary us = app.getDoctor();
-//                System.out.println("User Name" + user.getName());
-//                System.out.println("User Username" + user.getUsername());
-//                System.out.println("user ID" + user.ID);
-//                System.out.println("User phone" + user.Phone);
-//                System.out.println("User Email" + user.Email);
-//               
-//            }
+     
         System.out.print("You can generate report ,but first Enter vetenrinary ID : ");
         int ID = input.nextInt();      
         
@@ -494,8 +466,8 @@ public class Main {
         Date d = new Date();
         System.out.println("Report of "+vetenrainary.getName()+ " written in "+f.format(d)); 
 //        ((Customer)user).setMedication(medicine);
-Medication medicine = new Medication();
-        ((Customer)user).getMedication(medicine);
+             //Medication medicine = new Medication();
+        //((Customer)user).getMedication(medicine);
 
     
      }
@@ -508,13 +480,14 @@ Medication medicine = new Medication();
             if (vet == null) {
                 System.out.println("Vet is null");
             } else {
+                int appid = input.nextInt();
                 String day = input.next();
                 // System.out.println(day);
                 String time = input.next();
 
                 String stringDate = input.next();
                 Date date = new SimpleDateFormat("dd/MM").parse(stringDate);
-                Appointment appointment1 = new Appointment(vet, day, date, time);
+                Appointment appointment1 = new Appointment(vet,  date,day, time,true,appid);
                 appointment.add(appointment1);
             }
 
