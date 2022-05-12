@@ -241,7 +241,6 @@ public class Main {
         number--;
         int id = ((Customer) user).getID();
         //loop to get into the customer's appointments array
-        //
         for (int i = 0; i < u.size(); i++) {
             if (id == u.get(i).ID) {
                 int index = ((Customer) u.get(i)).Nullappointment();
@@ -263,8 +262,6 @@ public class Main {
                     Pets pet= new Pets(name,age,gender,(Customer) user,bloodtype,type);
                     //
                     appointment.get(number).setPet(pet);
-                    
-                    
                     ((Customer) u.get(i)).setApp(appointment.get(number), index);
                     //mark the appointment booked
                     appointment.get(number).setValid(false);
