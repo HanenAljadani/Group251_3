@@ -16,13 +16,13 @@ public class User {
     String Name;
     String Phone;
     String Email;
-    Date DoB;
+    String DoB;
     String Password;
     String username;
     int ID;
     char gender;
 
-    public User(String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username, int ID) {
+    public User(String Fname, String Lname, String Phone, String Email, String DoB, String Password, String username, int ID) {
         this.Name = Fname + " " + Lname;
 
         this.Phone = Phone;
@@ -57,11 +57,11 @@ public class User {
         this.Email = Email;
     }
 
-    public Date getDoB() {
+    public String getDoB() {
         return DoB;
     }
 
-    public void setDoB(Date DoB) {
+    public void setDoB(String DoB) {
         this.DoB = DoB;
     }
 

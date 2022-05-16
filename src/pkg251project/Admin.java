@@ -16,7 +16,7 @@ public class Admin extends User {
     double Salary;
     char gender;
     
-    public Admin( int ID,String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username,char g,double salary){
+    public Admin( int ID,String Fname, String Lname, String Phone, String Email, String DoB, String Password, String username,char g,double salary){
         super(Fname, Lname, Phone, Email, DoB, Password, username, ID);
         this.gender = g;
         this.Salary = salary;

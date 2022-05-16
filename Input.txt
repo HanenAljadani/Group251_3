@@ -1,5 +1,3 @@
-
-
 Add_VETERINARY 0450 Ali Zahrani 102 5001234 AliZahrani@gmail.com 08/10/1995 Ali Ali1234 M 7000
 Add_VETERINARY 0500 Amal Ghamdi 101 5001244 AmalGhamdi@gmail.com 18/01/1990 Amal Amal1234 F 7500
 Add_VETERINARY 0501 Maryam Shahri 105 5001245 MaryamShahri@gmail.com 28/05/1995 Maryam Maryam1234 F 7000
@@ -12,3 +10,4 @@ Add_Admin  9003 Laila Shahri 4001245 LailaShahri@gmail.com 16/08/1998  Laila1234
 Add_Customer 1234 nora aloufi 3355889922 nora@gmail.com 06/05/1999 nora nora1234 F
 Add_Customer 111 asd ddd 123 asd@gmail.com 22/4/2004 asd 333 M
 Add_Customer 111 qqq www 122 aa@gmail.com 23/3/2003 qqq 111 F
+

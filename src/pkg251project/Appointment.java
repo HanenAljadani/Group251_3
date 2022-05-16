@@ -16,6 +16,8 @@ public class Appointment {
     Vetenrinary doctor;
     Date date;
     String time;
+
+   
     String day;
     boolean valid;
     int appId;
@@ -29,7 +31,9 @@ public class Appointment {
         this.appId = appId;
       
     }
-
+ public String getTime() {
+        return time;
+    }
     public void setPet(Pets pet) {
         this.pet = pet;
     }

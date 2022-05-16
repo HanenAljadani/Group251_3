@@ -17,7 +17,7 @@ public class Vetenrinary extends User {
     int DectorRoom;
     
 
-    public Vetenrinary( int ID,String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username, int DectorRoom ,char gender,double salary) {
+    public Vetenrinary( int ID,String Fname, String Lname, String Phone, String Email, String DoB, String Password, String username, int DectorRoom ,char gender,double salary) {
         super(Fname, Lname, Phone, Email, DoB, Password, username, ID);
        
         this.gender = gender;

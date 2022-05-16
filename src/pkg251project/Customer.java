@@ -19,7 +19,7 @@ public class Customer extends User {
     char Gender;
 
 
-    public Customer( String Fname, String Lname, String Phone, String Email, Date DoB, String Password, String username, int ID,char gender) {
+    public Customer( String Fname, String Lname, String Phone, String Email, String DoB, String Password, String username, int ID,char gender) {
         super(Fname, Lname, Phone, Email, DoB, Password, username, ID);
         app = new Appointment[3];
         this.Bill=0;
@@ -37,28 +37,34 @@ public class Customer extends User {
 
     public void printMed(){
         if(medication==null){
-            System.out.println("There's no prescription\n");
+            System.out.println("       - There's no prescription -\n");
             System.out.println("--------------------------------------------\n");
         }else{
-        System.out.println("Medication Name: "+medication.getName());
-        System.out.println("Medication Code: "+medication.getMedicineCode());
-        System.out.println("Medication Price: "+medication.getMedicinePrice());
+        System.out.println("Medication Name : "+medication.getName());
+        System.out.println("Medication Code : "+medication.getMedicineCode());
+        System.out.println("Medication Price : "+medication.getMedicinePrice());
         }
     }
     
     public int printAppointmentInfo(){
         int i;
         if(app[0] == null ){
-          System.out.println("You don't have any appointment");  
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("       - You don't have any appointment -"); 
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------");
+          
           return -1;
         }else{
-        System.out.println("Your Appointments");
+         System.out.println("------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("       - Customer's " +Name+ " Appointment -"); 
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------");
+          
         for( i = 0 ; i < app.length; i++  ){
             if(app[i]==null)
                 break;
             else{
              System.out.println("-"+(i+1)+". Appointment number: "+app[i].appId+"\n  Vetenrinary Name: "+
-             app[i].getDoctor().getDectorName()+"\n  Appointment Date: "+app[i].getDate()+"\n For "+app[i].getPet().getName());
+             app[i].getDoctor().getDectorName()+"\n  Appointment Date: "+app[i].getDate()+" "+app[i].getTime()+"\n  For "+app[i].getPet().getName());
              //here Print all Appointment info from APPOINTMENT CLASS
         }
         }
