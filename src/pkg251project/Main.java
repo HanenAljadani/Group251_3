@@ -23,6 +23,7 @@ public class Main {
 ////array list for all the users
 //test hind
     //test hanen
+    //test nora
     static ArrayList<User> u = new ArrayList<User>();
     static ArrayList<Appointment> appointment = new ArrayList<Appointment>();
     static User user;
