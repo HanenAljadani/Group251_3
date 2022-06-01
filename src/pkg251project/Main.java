@@ -21,7 +21,7 @@ import java.util.Scanner;
  */
 public class Main {
 ////array list for all the users
-
+//test hind
     static ArrayList<User> u = new ArrayList<User>();
     static ArrayList<Appointment> appointment = new ArrayList<Appointment>();
     static User user;
